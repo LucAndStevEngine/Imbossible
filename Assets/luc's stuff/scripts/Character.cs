@@ -6,6 +6,7 @@ public class Character : MonoBehaviour {
 
     public float MaxSpeed;
     public float Force;
+    public float TurnSpeed;
     public Vector3 Accel;
     private Rigidbody rb;
     private Vector3 originalDirection;
@@ -29,8 +30,10 @@ public class Character : MonoBehaviour {
         {
             angle = -angle;
         }
+
         Quaternion temp = Quaternion.AngleAxis(angle, Vector3.up);
-        this.transform.localRotation = temp;
+        Quaternion temp2 = this.transform.localRotation;
+        this.transform.localRotation = Quaternion.RotateTowards(temp2, temp, TurnSpeed);
     }
 
     protected void MovementControl()

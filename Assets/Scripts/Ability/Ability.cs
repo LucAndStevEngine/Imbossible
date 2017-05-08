@@ -18,7 +18,7 @@ public abstract class Ability : ScriptableObject
     public float resourceCost = 0;
 
     // Called on start to reset ability
-    public void Init()
+    public virtual void Init()
     {
         cooldown = 0;
     }
@@ -40,7 +40,7 @@ public abstract class Ability : ScriptableObject
     }
 
     // Updates the abilities(Will be used in case of passives, reset cooldown, etc)
-    public void UpdateAbility()
+    public virtual void UpdateAbility()
     {
         if(cooldown > 0)
         {

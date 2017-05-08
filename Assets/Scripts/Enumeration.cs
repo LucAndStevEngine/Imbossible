@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class Enumeration : MonoBehaviour
 {
+    // The type of damage being output
+    public enum DamageType
+    {
+        DT_HEAL = 0,
+        DT_DAMAGE,
+        DT_SHIELD
+    }
+
+    // The side the object is on
+    public enum Alliance
+    {
+        A_ALLY,
+        A_ENEMY,
+        A_NEUTRAL
+    }
+
     // The type of modifiers that effect the ability
     public enum AbilityType
     {
@@ -28,4 +44,6 @@ public class Enumeration : MonoBehaviour
         AN_SLASH,
 
     }
+
+
 }

@@ -4,53 +4,52 @@ using UnityEngine;
 
 public class Character : MonoBehaviour {
 
-    public float axisV;
-    public float axisH;
-
-    public Vector3 direct;
+    public float MaxSpeed;
+    public float Force;
+    public Vector3 Accel;
     private Rigidbody rb;
-   
+    private Vector3 originalDirection;
+    protected float angle;
 
-    private void Move(Vector3 direction, float maxSpeed, float force)
-    {
-        direct = direction * force;
-        rb.AddForce(direction * force, ForceMode.Impulse);
+    protected void Move(Vector3 direction, float maxSpeed, float force)
+    {   
+        rb.AddForce(direction.normalized * force, ForceMode.Impulse);
         float xSpeed = Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed);
-        float ySpeed = rb.velocity.y; //Mathf.Clamp(rb.velocity.y, -maxSpeed, maxSpeed);
+        float ySpeed = rb.velocity.y; 
         float zSpeed = Mathf.Clamp(rb.velocity.z, -maxSpeed, maxSpeed);
         rb.velocity = new Vector3(xSpeed, ySpeed, zSpeed);
+        Accel = rb.velocity;
     }
 
-   private void MovementControl()
+    protected void Rotate(Vector3 direction)
     {
-        if (Input.GetAxis("Vertical") > 0.9)
+        angle = Vector3.Angle(originalDirection, direction);
+        Vector3 crossP = Vector3.Cross(originalDirection, direction);
+        if (crossP.y < 0)
         {
-            Move(Vector3.forward, 50, 40);
+            angle = -angle;
         }
-        if (Input.GetAxis("Vertical") < -0.9)
-        {
-            Move(Vector3.back, 50, 40);
-        }
-        //if (Input.GetAxis("Horizontal") > 0.9f)
-        //{
-        //    Move(Vector3.right, 50, 40);
-        //}
-        // if (Input.GetAxis("Horizontal") < -0.9f)
-        // {
-        //     Move(Vector3.left, 50, 40);
-        // }
+        Quaternion temp = Quaternion.AngleAxis(angle, Vector3.up);
+        this.transform.localRotation = temp;
+    }
+
+    protected void MovementControl()
+    {
+        if (Input.GetAxis("LeftJoystickX") != 0 || Input.GetAxis("LeftJoystickY") != 0)
+            Move(new Vector3(1 * Input.GetAxis("LeftJoystickX"), 0, 1 * Input.GetAxis("LeftJoystickY")), MaxSpeed, Force);
+        if (Input.GetAxis("RightJoystickX") != 0 || Input.GetAxis("RightJoystickX") != 0)
+        Rotate(new Vector3(Input.GetAxis("RightJoystickX"),0, Input.GetAxis("RightJoystickY")));
     }
 
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        originalDirection = new Vector3(0,0,1);
+    }
+
+    // Update is called once per frame
+    void Update () {
         MovementControl();
-        axisV = Input.GetAxis("Vertical");
-        axisH = Input.GetAxis("Horizontal");
 
     }
 }

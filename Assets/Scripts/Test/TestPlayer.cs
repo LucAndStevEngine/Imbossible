@@ -22,14 +22,14 @@ public class TestPlayer : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        float xDirection = Input.GetAxis("Horizontal");
-        float yDirection = Input.GetAxis("Vertical");
+        float xDirection = Input.GetAxis("LeftJoystickX");
+        float yDirection = Input.GetAxis("LeftJoystickY");
 
         MoveCharacter(new Vector2(xDirection, yDirection));
 
 
-        float xLookDirection = Input.GetAxis("RightHorizontal");
-        float yLookDirection = Input.GetAxis("RightVertical");
+        float xLookDirection = Input.GetAxis("RightJoystickX");
+        float yLookDirection = Input.GetAxis("RightJoystickY");
         Debug.Log(xLookDirection);
         Debug.Log(yLookDirection);
 

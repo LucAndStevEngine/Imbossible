@@ -42,8 +42,16 @@ public class Enumeration : MonoBehaviour
     {
         AN_DEFAULT = 0,
         AN_SLASH,
-
+        AN_LEAP
     }
 
+    public enum InputUse
+    {
+        IU_ABILITYONE = 0,
+        IU_ABILITYTWO,
+        IU_ABILITYTHREE,
+        IU_ABILITYFOUR,
+        IU_SIZE
+    }
 
 }

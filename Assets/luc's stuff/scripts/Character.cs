@@ -12,7 +12,13 @@ public class Character : MonoBehaviour {
     public Vector3 originalDirection;
     protected float angle;
 
+<<<<<<< HEAD
     protected  void Move(Vector3 direction, float maxSpeed, float force)
+=======
+    public Ability ability;
+
+    protected void Move(Vector3 direction, float maxSpeed, float force)
+>>>>>>> 8cf2f220bebe4dbac7b832584ba3d4abdc656088
     {   
         rb.AddForce(direction.normalized * force, ForceMode.Impulse);
         float xSpeed = Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed);
@@ -42,11 +48,24 @@ public class Character : MonoBehaviour {
        virtual protected void Start () {
         rb = GetComponent<Rigidbody>();
         originalDirection = new Vector3(0,0,1);
+        ability.Init(this);
     }
 
     // Update is called once per frame
+<<<<<<< HEAD
     void Update () {
       
+=======
+    void Update ()
+    {
+        MovementControl();
+>>>>>>> 8cf2f220bebe4dbac7b832584ba3d4abdc656088
 
+        ability.UpdateAbility();
+
+        if (Input.GetKey(KeyCode.Joystick1Button0))
+        {
+            ability.UseAbility();
+        }
     }
 }

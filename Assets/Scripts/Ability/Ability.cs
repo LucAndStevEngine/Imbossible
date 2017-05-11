@@ -17,10 +17,13 @@ public abstract class Ability : ScriptableObject
     // The active cost of the ability
     public float resourceCost = 0;
 
+    public Character ownerCharacter;
+
     // Called on start to reset ability
-    public virtual void Init()
+    public virtual void Init(Character character)
     {
         cooldown = 0;
+        ownerCharacter = character;
     }
     
     // Called to use the ability from the player

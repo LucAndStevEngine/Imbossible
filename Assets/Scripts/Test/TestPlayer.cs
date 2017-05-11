@@ -16,7 +16,7 @@ public class TestPlayer : MonoBehaviour
 
     void Awake()
     {
-        ability.Init();
+        ability.Init(null);
     }
 
     // Update is called once per frame

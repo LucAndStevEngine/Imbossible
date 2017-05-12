@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    // The info for each input, holds the keycode assigned to the input and the correspodning action that it should use
     public struct InputInfo
     {
         public Enumeration.InputUse inputUse;
         public KeyCode code;
     }
 
+    // The playercontroller info
+    // if a controller is plugged in it will enable it and store the corresponding input information within
     public struct PlayerControllerInfo
     {
         public bool bIsEnabled;
+        public PlayableCharacter character;
         public string joystickName;
         public int joystickNumber;
         public InputInfo[] inputs;
@@ -27,12 +31,14 @@ public class InputManager : MonoBehaviour
     private float recheckTime = 0;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
+        // Initialize the controllers
         pControlInfo = new PlayerControllerInfo[4];
         for (int i = 0; i < 4; i++)
         {
             pControlInfo[i].inputs = new InputInfo[(int)Enumeration.InputUse.IU_SIZE];
+            pControlInfo[i].character = null;
             for(int j = 0; j < (int)Enumeration.InputUse.IU_SIZE; j ++)
             {
                 pControlInfo[i].inputs[j].inputUse = (Enumeration.InputUse)j;
@@ -40,10 +46,12 @@ public class InputManager : MonoBehaviour
             }
         }
 
+        // Check which controllers are connected
         CheckJoystickConnections();
         DontDestroyOnLoad(gameObject);
     }
 
+    // Checks to see which controllers are connected at this point in time
     void CheckJoystickConnections()
     {
         string[] names = Input.GetJoystickNames();
@@ -76,6 +84,7 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check the controller connections every few seconds
         recheckTime += Time.deltaTime;
         if(recheckTime >= controllerCheckTime)
         {
@@ -83,34 +92,23 @@ public class InputManager : MonoBehaviour
             recheckTime = 0;
         }
 
+        // Figure out the input then send the information over
         for (int i = 0; i < 4; i++)
         {
             PlayerControllerInfo info = pControlInfo[i];
-            if(info.bIsEnabled)
+            if(info.bIsEnabled && info.character)
             {
                 for (int j = 0; j < info.inputs.Length; j++)
                 {
                     if (Input.GetKeyDown(info.inputs[j].code))
                     {
+                        info.character.UseInput(info.inputs[j].inputUse);
                         Debug.Log(info.inputs[j].inputUse.ToString() + " - " + info.joystickNumber);
                     }
                 }
             }
         }
 
-            if (newInputValue)
-        {
-            KeyCode code = FetchKey();
-            if (code != KeyCode.None)
-            {
-                iInfo.code = code;
-                newInputValue = false;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            newInputValue = true;
-        }    
     }
 
     // Finds the last pressed button and returns that value
@@ -131,4 +129,20 @@ public class InputManager : MonoBehaviour
 
         return KeyCode.None;
     }
+
+    public void SetCharacter(int playerNumber, PlayableCharacter character)
+    {
+        if(!pControlInfo[playerNumber].character)
+            pControlInfo[playerNumber].character = character;
+    }
+
+    public void ResetCharacters()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            pControlInfo[i].character = null;
+        }
+    }
+
+
  }

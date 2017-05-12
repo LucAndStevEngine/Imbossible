@@ -12,8 +12,6 @@ public class Character : MonoBehaviour {
     public Vector3 originalDirection;
     protected float angle;
 
-    public Ability ability;
-
     protected void Move(Vector3 direction, float maxSpeed, float force)
     {   
         rb.AddForce(direction.normalized * force, ForceMode.Impulse);
@@ -41,21 +39,15 @@ public class Character : MonoBehaviour {
 
 
     // Use this for initialization
-       virtual protected void Start () {
+       virtual protected void Start ()
+    {
         rb = GetComponent<Rigidbody>();
         originalDirection = new Vector3(0,0,1);
-        ability.Init(this);
     }
 
 
     void Update ()
     {
-
-        ability.UpdateAbility();
-
-        if (Input.GetKey(KeyCode.Joystick1Button0))
-        {
-            ability.UseAbility();
-        }
+       
     }
 }

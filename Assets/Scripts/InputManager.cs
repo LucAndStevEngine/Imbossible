@@ -103,7 +103,7 @@ public class InputManager : MonoBehaviour
                     if (Input.GetKeyDown(info.inputs[j].code))
                     {
                         info.character.UseInput(info.inputs[j].inputUse);
-                        Debug.Log(info.inputs[j].inputUse.ToString() + " - " + info.joystickNumber);
+                        //Debug.Log(info.inputs[j].inputUse.ToString() + " - " + info.joystickNumber);
                     }
                 }
             }

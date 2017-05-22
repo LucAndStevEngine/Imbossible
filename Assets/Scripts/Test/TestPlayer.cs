@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestPlayer : MonoBehaviour
 {
-    public Ability ability;
+    //public Ability ability;
 
     public float speed = 10.0f;
 
@@ -16,7 +16,7 @@ public class TestPlayer : MonoBehaviour
 
     void Awake()
     {
-        ability.Init(null);
+        //ability.Init(null);
     }
 
     // Update is called once per frame
@@ -37,10 +37,10 @@ public class TestPlayer : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.A))
         {
-            ability.UseAbility();
+            //ability.UseAbility();
         }
 
-        ability.UpdateAbility();
+        //ability.UpdateAbility();
     }
 
     void MoveCharacter(Vector2 direction)

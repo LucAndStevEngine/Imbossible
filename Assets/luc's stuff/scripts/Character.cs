@@ -2,16 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour {
+public class Character : MonoBehaviour
+{
+    // Movement variables
+    public bool bCanMove = true;
+    public bool bIsGrounded = true;
 
+    // Max Speed and default max speed
     public float MaxSpeed;
-    public float Force;
+    [SerializeField]
+    protected float defaultMaxSpeed;
+
+    // Max turn speed and default turn speed
     public float TurnSpeed;
+    [SerializeField]
+    protected float defaultTurnSpeed;
+
+    // The force of acceleration for the character
+    public float Force;
+   
     public Vector3 Accel;
     private Rigidbody rb;
     public Vector3 originalDirection;
     protected float angle;
 
+    // Move the character in a direction with a set force using the maximum speed to clamp
     protected void Move(Vector3 direction, float maxSpeed, float force)
     {   
         rb.AddForce(direction.normalized * force, ForceMode.Impulse);
@@ -22,7 +37,8 @@ public class Character : MonoBehaviour {
         Accel = rb.velocity;
     }
 
-    protected  void Rotate(Vector3 direction)
+    // Rotates the player slowly to a direction
+    protected void Rotate(Vector3 direction)
     {
         angle = Vector3.Angle(originalDirection, direction);
         Vector3 crossP = Vector3.Cross(originalDirection, direction);
@@ -36,18 +52,60 @@ public class Character : MonoBehaviour {
         this.transform.localRotation = Quaternion.RotateTowards(temp2, temp, TurnSpeed);
     }
 
-
-
     // Use this for initialization
-       virtual protected void Start ()
+    virtual protected void Start ()
     {
         rb = GetComponent<Rigidbody>();
         originalDirection = new Vector3(0,0,1);
+        MaxSpeed = defaultMaxSpeed;
+        TurnSpeed = defaultTurnSpeed;
     }
 
 
-    void Update ()
+    virtual protected void Update ()
     {
-       
+        bIsGrounded = CheckGrounded();
+    }
+
+    // Force the character to stop movement
+    public void ForceStopMovement()
+    {
+        bCanMove = false;
+    }
+
+    // Starts the movement of the character again
+    public void StartMovement()
+    {
+        bCanMove = true;
+    }
+
+    protected bool CheckGrounded()
+    {
+        RaycastHit[] hits;
+
+        hits = Physics.RaycastAll(gameObject.transform.position, -Vector3.up, 1.0f);
+
+        foreach(RaycastHit hit in hits)
+        {
+            if(hit.collider.gameObject.tag == "Ground")
+            {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    public void ResetMovement()
+    {
+        MaxSpeed = defaultMaxSpeed;
+        TurnSpeed = defaultTurnSpeed;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(gameObject.transform.position, gameObject.transform.position - Vector3.up * 1.0f);
     }
 }

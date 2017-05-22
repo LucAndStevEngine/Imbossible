@@ -1,31 +1,78 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Abilities/Leap"),]
 public class Leap : Ability
 {
-    // The distance the leap will send the player
-    public float leapForce = 100;
+    public float leapForce = 7500;
 
-    // Called on start to reset ability
-    public override void Init(Character character)
+    public Leap()
     {
-        base.Init(character);
+        id = 0;
     }
 
-    // Overrrideable function to define what happens within the ability
-    protected override void OnAbilityUse()
+    public Leap(string name, int cost, int id, float cooldownTime, float cTime, Enumeration.AbilityType[] types, Enumeration.AbilityCost costType) : base(name, cost, id, cooldownTime, cTime, types, costType)
     {
-        base.OnAbilityUse();
 
-        Rigidbody rigidBody = ownerCharacter.GetComponent<Rigidbody>();
-        rigidBody.AddForce((ownerCharacter.transform.forward + new Vector3(0, 0.5f, 0)) * leapForce, ForceMode.Impulse);
     }
 
-    // Updates the abilities(Will be used in case of passives, reset cooldown, etc)
-    public override void UpdateAbility()
+    public override void UseAbility(Character owner)
     {
-        base.UpdateAbility();
+        base.UseAbility(owner);
+        Rigidbody rigidBody = owner.GetComponent<Rigidbody>();
+        rigidBody.AddForce((owner.transform.forward + new Vector3(0, 0.35f, 0)) * leapForce, ForceMode.Impulse);
+        owner.ForceStopMovement();
+        owner.StartCoroutine(CheckIfLanded(owner));
     }
+
+    private IEnumerator CheckIfLanded(Character owner)
+    {
+
+        yield return new WaitForSeconds(0.1f);
+        if(owner.bIsGrounded)
+        {
+            owner.StartMovement();
+        }
+        else
+        {
+            owner.StartCoroutine(CheckIfLanded(owner));
+        }
+    }
+
+    //// The distance the leap will send the player
+    //public float leapForce = 100;
+    //public bool isLeaping = false;
+
+    //// Called on start to reset ability
+    //public override void Init(Character character)
+    //{
+    //    base.Init(character);
+    //}
+
+    //// Overrrideable function to define what happens within the ability
+    //protected override void OnAbilityUse()
+    //{
+    //    base.OnAbilityUse();
+    //    if(isLeaping)
+    //    {
+    //        return;
+    //    }
+
+    //    Rigidbody rigidBody = ownerCharacter.GetComponent<Rigidbody>();
+    //    rigidBody.AddForce((ownerCharacter.transform.forward + new Vector3(0, 0.5f, 0)) * leapForce, ForceMode.Impulse);
+    //    isLeaping = true;
+    //    ownerCharacter.ForceStopMovement();
+    //}
+
+    //// Updates the abilities(Will be used in case of passives, reset cooldown, etc)
+    //public override void UpdateAbility()
+    //{
+    //    base.UpdateAbility();
+    //    if (isLeaping && ownerCharacter.bIsGrounded)
+    //    {
+    //        isLeaping = false;
+    //        ownerCharacter.StartMovement();
+    //    }
+    //}
 }

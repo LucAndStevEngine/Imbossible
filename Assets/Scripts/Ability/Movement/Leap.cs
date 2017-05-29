@@ -22,7 +22,7 @@ public class Leap : Ability
         base.UseAbility(owner);
         Rigidbody rigidBody = owner.GetComponent<Rigidbody>();
         rigidBody.AddForce((owner.transform.forward + new Vector3(0, 0.35f, 0)) * leapForce, ForceMode.Impulse);
-        owner.ForceStopMovement();
+        owner.StopPositionalMovement();
         owner.StartCoroutine(CheckIfLanded(owner));
     }
 
@@ -32,7 +32,7 @@ public class Leap : Ability
         yield return new WaitForSeconds(0.1f);
         if(owner.bIsGrounded)
         {
-            owner.StartMovement();
+            owner.StartPositionalMovement();
         }
         else
         {

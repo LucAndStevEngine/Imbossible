@@ -28,10 +28,18 @@ public class PlayableCharacter : Character
         if (bCanMove)
         {
             if (Input.GetAxis("LeftJoystickX") != 0 || Input.GetAxis("LeftJoystickY") != 0)
+            {
                 Move(new Vector3(1 * Input.GetAxis("LeftJoystickX"), 0, 1 * Input.GetAxis("LeftJoystickY")), MaxSpeed, Force);
-            if (Input.GetAxis("RightJoystickX") != 0 || Input.GetAxis("RightJoystickY") != 0)
-                Rotate(new Vector3(Input.GetAxis("RightJoystickX"), 0, Input.GetAxis("RightJoystickY")));
+            }
         }
+        if(bCanTurn)
+        {
+            if (Input.GetAxis("RightJoystickX") != 0 || Input.GetAxis("RightJoystickY") != 0)
+            {
+                Rotate(new Vector3(Input.GetAxis("RightJoystickX"), 0, Input.GetAxis("RightJoystickY")));
+            }
+        }
+
     }
 
     // Use this for initialization
@@ -112,7 +120,5 @@ public class PlayableCharacter : Character
         GCD = resetGCD;
         abilityInfo[slot].CD = ab.cooldownTime;
         ab.UseAbility(this);
-
-
     }
 }

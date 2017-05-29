@@ -6,6 +6,7 @@ public class Character : MonoBehaviour
 {
     // Movement variables
     public bool bCanMove = true;
+    public bool bCanTurn = true;
     public bool bIsGrounded = true;
 
     // Max Speed and default max speed
@@ -67,16 +68,42 @@ public class Character : MonoBehaviour
         bIsGrounded = CheckGrounded();
     }
 
-    // Force the character to stop movement
-    public void ForceStopMovement()
+    // locks the turning movement for the character
+    public void StopRotationalMovement()
+    {
+        bCanTurn = false;
+    }
+
+    // Locks the positional movement for the character
+    public void StopPositionalMovement()
     {
         bCanMove = false;
     }
 
+    //Locks all movement
+    public void StopAllMovement()
+    {
+        StopRotationalMovement();
+        StopPositionalMovement();
+    }
+    
     // Starts the movement of the character again
-    public void StartMovement()
+    public void StartRotationalMovement()
+    {
+        bCanTurn = true;
+    }
+
+    // Starts the movement of the character again
+    public void StartPositionalMovement()
     {
         bCanMove = true;
+    }
+    
+    // Starts all movement
+    public void StartAllMovement()
+    {
+        StartRotationalMovement();
+        StartPositionalMovement();
     }
 
     protected bool CheckGrounded()

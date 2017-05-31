@@ -20,7 +20,7 @@ public class RideBoar : Ability
     public override void UseAbility(Character owner)
     {
         base.UseAbility(owner);
-        owner.ForceStopMovement();
+        owner.StopAllMovement();
         owner.MaxSpeed = speedChange;
         owner.StartCoroutine(StartAbility(owner));
     }
@@ -28,7 +28,7 @@ public class RideBoar : Ability
     private IEnumerator StartAbility(Character owner)
     {
         yield return new WaitForSeconds(castTime);
-        owner.StartMovement();
+        owner.StartAllMovement();
         owner.StartCoroutine(EndAbility(owner));
     }
 

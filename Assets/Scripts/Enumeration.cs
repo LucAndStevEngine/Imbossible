@@ -53,5 +53,4 @@ public class Enumeration : MonoBehaviour
         IU_ABILITYFOUR,
         IU_SIZE
     }
-
 }

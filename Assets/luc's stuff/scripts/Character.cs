@@ -23,7 +23,7 @@ public class Character : MonoBehaviour
     public float Force;
    
     public Vector3 Accel;
-    private Rigidbody rb;
+    protected Rigidbody rb;
     public Vector3 originalDirection;
     protected float angle;
 
@@ -35,7 +35,6 @@ public class Character : MonoBehaviour
         float ySpeed = rb.velocity.y; 
         float zSpeed = Mathf.Clamp(rb.velocity.z, -maxSpeed, maxSpeed);
         rb.velocity = new Vector3(xSpeed, ySpeed, zSpeed);
-        Accel = rb.velocity;
     }
 
     // Rotates the player slowly to a direction
@@ -66,6 +65,7 @@ public class Character : MonoBehaviour
     virtual protected void Update ()
     {
         bIsGrounded = CheckGrounded();
+        Accel = rb.velocity;
     }
 
     // locks the turning movement for the character

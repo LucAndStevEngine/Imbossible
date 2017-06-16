@@ -12,7 +12,7 @@ public class Leap : Ability
         id = 0;
     }
 
-    public Leap(string name, int cost, int id, float cooldownTime, float cTime, Enumeration.AbilityType[] types, Enumeration.AbilityCost costType) : base(name, cost, id, cooldownTime, cTime, types, costType)
+    public Leap(string name, int id, int cost, float cooldownTime, float cTime, Enumeration.AbilityType[] types, Enumeration.AbilityCost costType) : base(name, id, cost, cooldownTime, cTime, types, costType)
     {
 
     }
@@ -24,6 +24,11 @@ public class Leap : Ability
         rigidBody.AddForce((owner.transform.forward + new Vector3(0, 0.35f, 0)) * leapForce, ForceMode.Impulse);
         owner.StopPositionalMovement();
         owner.StartCoroutine(CheckIfLanded(owner));
+        PlayableCharacter pChar = (PlayableCharacter)owner;
+        if(pChar)
+        {
+            pChar.UseAnimation(Enumeration.AnimationUse.AU_MOVEMENT);
+        }
     }
 
     private IEnumerator CheckIfLanded(Character owner)

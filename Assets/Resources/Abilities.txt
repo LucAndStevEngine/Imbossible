@@ -1,0 +1,5 @@
+Leap-Leap-0-10-10-0.5-Melee-Mana-
+RideBoar-Ride Boar-1-1-5-0.2-Movement-Mana-
+Tether-Tether-2-1-5-0.1-Spell-Mana-
+SlashAttack-Slash-3-5-1.5-1.5-Melee-Mana-
+*CLASS, NAME, ID, COST, CD, Casttime, (Modifiers), ResourceType

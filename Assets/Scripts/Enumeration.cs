@@ -53,4 +53,13 @@ public class Enumeration : MonoBehaviour
         IU_ABILITYFOUR,
         IU_SIZE
     }
+
+    public enum AnimationUse
+    {
+        AU_MOVEMENT = 0,
+        AU_BASICATTACK,
+        AU_SHORTCD,
+        AU_LONGCD
+    }
+
 }

@@ -20,11 +20,11 @@ public class Ability
         id = 0;
     }
 
-    public Ability(string name, int cost, int id, float cooldownTime, float cTime, Enumeration.AbilityType[] types, Enumeration.AbilityCost costType)
+    public Ability(string name, int id, int cost, float cooldownTime, float cTime, Enumeration.AbilityType[] types, Enumeration.AbilityCost costType)
     {
         this.abilityName = name;
-        this.resourceCost = cost;
         this.id = id;
+        this.resourceCost = cost;
         this.cooldownTime = cooldownTime;
         this.castTime = cTime;
         this.abilityCostType = costType;
@@ -33,7 +33,13 @@ public class Ability
 
     public virtual void UseAbility(Character owner)
     {
+        
+    }
 
+    //Loads a gameobject at path
+    protected GameObject LoadObject(string filePath)
+    {
+        return Resources.Load<GameObject>(filePath);
     }
 
 

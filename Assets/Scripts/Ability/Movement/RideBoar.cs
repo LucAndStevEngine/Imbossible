@@ -12,7 +12,7 @@ public class RideBoar : Ability
         id = 0;
     }
 
-    public RideBoar(string name, int cost, int id, float cooldownTime, float cTime, Enumeration.AbilityType[] types, Enumeration.AbilityCost costType) : base(name, cost, id, cooldownTime, cTime, types, costType)
+    public RideBoar(string name, int id, int cost, float cooldownTime, float cTime, Enumeration.AbilityType[] types, Enumeration.AbilityCost costType) : base(name, id, cost, cooldownTime, cTime, types, costType)
     {
 
     }
@@ -27,6 +27,7 @@ public class RideBoar : Ability
 
     private IEnumerator StartAbility(Character owner)
     {
+        Debug.Log(castTime);
         yield return new WaitForSeconds(castTime);
         owner.StartAllMovement();
         owner.StartCoroutine(EndAbility(owner));

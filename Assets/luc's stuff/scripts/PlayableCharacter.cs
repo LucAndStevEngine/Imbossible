@@ -7,6 +7,9 @@ public class PlayableCharacter : Character
     [SerializeField]
     private InputManager iManager;
 
+    [SerializeField]
+    private PlayerAnimationControl m_animationControl;
+
     public int playerNumber = 0;
 
     public AbilityInfo[] abilityInfo;
@@ -52,13 +55,8 @@ public class PlayableCharacter : Character
         {
             iManager.SetCharacter(playerNumber, this);
         }
-        Enumeration.AbilityType[] types = new Enumeration.AbilityType[1];
-        types[0] = Enumeration.AbilityType.AT_MELEE;
 
-        Ability test = new Leap("Leap", 1, 0, 2.0f, 0, types, Enumeration.AbilityCost.AC_MANA);
-        AbilityBook.AddAbility(test);
-        test = new RideBoar("RideBoar", 1, 1, 5.0f, 0.5f, types, Enumeration.AbilityCost.AC_MANA);
-        AbilityBook.AddAbility(test);
+        m_animationControl = GetComponentInChildren<PlayerAnimationControl>();
     }
 
     // Update is called once per frame
@@ -74,8 +72,15 @@ public class PlayableCharacter : Character
                 abilityInfo[i].CD -= Time.deltaTime;
             }
         }
+
         if(GCD > 0)
             GCD -= Time.deltaTime;
+        
+
+        if(m_animationControl)
+        {
+            m_animationControl.SetSpeed(new Vector3(rb.velocity.x * transform.forward.x, rb.velocity.y * transform.forward.y, rb.velocity.z * transform.forward.z).magnitude);
+        }
     }
 
     // Recieve the input form the controller and do what needs to be done
@@ -120,5 +125,23 @@ public class PlayableCharacter : Character
         GCD = resetGCD;
         abilityInfo[slot].CD = ab.cooldownTime;
         ab.UseAbility(this);
+    }
+
+    public void UseAnimation(Enumeration.AnimationUse animationUsed)
+    {
+        if (m_animationControl)
+        {
+            m_animationControl.UseAnimation(animationUsed);
+        }
+        
+    }
+
+    public float GetAnimationLength(Enumeration.AnimationUse animationUsed)
+    {
+        if (m_animationControl)
+        {
+            return m_animationControl.GetAnimationLength(animationUsed);
+        }
+        return 0;
     }
 }

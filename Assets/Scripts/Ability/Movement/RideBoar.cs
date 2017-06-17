@@ -27,7 +27,6 @@ public class RideBoar : Ability
 
     private IEnumerator StartAbility(Character owner)
     {
-        Debug.Log(castTime);
         yield return new WaitForSeconds(castTime);
         owner.StartAllMovement();
         owner.StartCoroutine(EndAbility(owner));

@@ -25,15 +25,23 @@ public class SlashAttack : Ability
         if (pChar)
         {
             pChar.UseAnimation(Enumeration.AnimationUse.AU_BASICATTACK);
-            Debug.Log(pChar.GetAnimationLength(Enumeration.AnimationUse.AU_BASICATTACK));
         }
         owner.StartCoroutine(RestartMovement(owner));
+        Weapon weapon = owner.GetWeapon();
+        if(weapon)
+        {
+            weapon.StartAttack();
+        }
     }
 
     private IEnumerator RestartMovement(Character owner)
     {
         yield return new WaitForSeconds(castTime);
-
+        Weapon weapon = owner.GetWeapon();
+        if (weapon)
+        {
+            weapon.EndAttack();
+        }
         owner.StartAllMovement();
     }
 }

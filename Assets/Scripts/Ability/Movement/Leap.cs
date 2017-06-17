@@ -6,6 +6,9 @@ using UnityEngine;
 public class Leap : Ability
 {
     public float leapForce = 7500;
+    public int damageDone = 10;
+    public float damageRadius = 10;
+    
 
     public Leap()
     {
@@ -34,16 +37,28 @@ public class Leap : Ability
     private IEnumerator CheckIfLanded(Character owner)
     {
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForEndOfFrame();
         if(owner.bIsGrounded)
         {
             owner.StartPositionalMovement();
+            DamageUponLanding(owner);
         }
         else
         {
             owner.StartCoroutine(CheckIfLanded(owner));
         }
     }
+    
+
+    // Need to implement damage upon landing
+    private void DamageUponLanding(Character owner)
+    {
+  
+        
+    }
+
+
+
 
     //// The distance the leap will send the player
     //public float leapForce = 100;

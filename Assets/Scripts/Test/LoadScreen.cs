@@ -38,7 +38,6 @@ public class LoadScreen : MonoBehaviour
     {
         string abilitiesText = LoadFile("Assets/Resources/Abilities.txt");
         LoadAllAbilities(abilitiesText);
-        Debug.Log(abilitiesText);
 	}
 	
 	// Update is called once per frame

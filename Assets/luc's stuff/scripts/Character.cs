@@ -27,6 +27,12 @@ public class Character : MonoBehaviour
     public Vector3 originalDirection;
     protected float angle;
 
+    // The weapon held if one is being held
+    [SerializeField]
+    protected Weapon m_Weapon;
+    [SerializeField]
+    protected Transform weaponSocket;
+
     // Move the character in a direction with a set force using the maximum speed to clamp
     protected void Move(Vector3 direction, float maxSpeed, float force)
     {   
@@ -106,6 +112,7 @@ public class Character : MonoBehaviour
         StartPositionalMovement();
     }
 
+    // Checks to see if the character is grounded
     protected bool CheckGrounded()
     {
         RaycastHit[] hits;
@@ -121,18 +128,33 @@ public class Character : MonoBehaviour
         }
 
         return false;
-
     }
 
+    // Resets all movement to the actual movement
     public void ResetMovement()
     {
         MaxSpeed = defaultMaxSpeed;
         TurnSpeed = defaultTurnSpeed;
     }
 
+    //Draws the line for checking if grounded
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(gameObject.transform.position, gameObject.transform.position - Vector3.up * 1.0f);
+    }
+
+    public void SetWeapon(Weapon weapon)
+    {
+        m_Weapon = weapon;
+        m_Weapon.SetOwner(this.gameObject);
+        m_Weapon.gameObject.transform.position = weaponSocket.position;
+        m_Weapon.gameObject.transform.rotation = weaponSocket.rotation;
+        m_Weapon.gameObject.transform.SetParent(weaponSocket);
+    }
+
+    public Weapon GetWeapon()
+    {
+        return m_Weapon;
     }
 }

@@ -6,6 +6,7 @@ public class Weapon : MonoBehaviour
 {
     public int weaponDamage = 1;
     public float weaponLength = 1.0f;
+    public Vector3 weaponOffset;
 
     [SerializeField]
     private GameObject owner;

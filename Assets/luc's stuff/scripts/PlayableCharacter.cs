@@ -57,6 +57,9 @@ public class PlayableCharacter : Character
         }
 
         m_animationControl = GetComponentInChildren<PlayerAnimationControl>();
+
+        //REMOVE
+        SetWeapon(m_Weapon);
     }
 
     // Update is called once per frame
@@ -79,7 +82,8 @@ public class PlayableCharacter : Character
 
         if(m_animationControl)
         {
-            m_animationControl.SetSpeed(new Vector3(rb.velocity.x * transform.forward.x, rb.velocity.y * transform.forward.y, rb.velocity.z * transform.forward.z).magnitude);
+            m_animationControl.SetSpeed(new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z).magnitude);
+            m_animationControl.SetDirectionAndForward(rb.velocity, transform.right);
         }
     }
 

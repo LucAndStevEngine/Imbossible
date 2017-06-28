@@ -72,6 +72,10 @@ public class Character : MonoBehaviour
     {
         bIsGrounded = CheckGrounded();
         Accel = rb.velocity;
+        if(m_Weapon)
+        {
+            m_Weapon.gameObject.transform.localPosition = m_Weapon.weaponOffset;
+        }
     }
 
     // locks the turning movement for the character
@@ -148,9 +152,17 @@ public class Character : MonoBehaviour
     {
         m_Weapon = weapon;
         m_Weapon.SetOwner(this.gameObject);
-        m_Weapon.gameObject.transform.position = weaponSocket.position;
         m_Weapon.gameObject.transform.rotation = weaponSocket.rotation;
         m_Weapon.gameObject.transform.SetParent(weaponSocket);
+        m_Weapon.gameObject.transform.localPosition = m_Weapon.weaponOffset;
+    }
+
+    public Weapon RemoveWeapon()
+    {
+        Weapon oldWeapon = m_Weapon;
+        m_Weapon.transform.SetParent(null);
+        m_Weapon = weaponSocket.GetComponent<Weapon>();
+        return oldWeapon;
     }
 
     public Weapon GetWeapon()
